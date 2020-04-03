@@ -24,7 +24,7 @@ const TaotlusSchema = new mongoose.Schema({
     type: [String],
     required: true
   },
-  company: {
+  taotlus: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'company'
   },
