@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const TaotlusSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'User'
   },
   opilase_nimi: {
     type: String
