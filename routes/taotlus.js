@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 const { check } = require('express-validator');
 
 const {
@@ -15,7 +15,7 @@ const {
 router
   .route('/')
   .post([
-    auth,
+    protect,
     [
       check('eriala', 'Eriala is required')
         .not()
@@ -25,7 +25,7 @@ router
         .isEmpty()
     ]
   ], createUpdateTaotlus)
-  .get(getAllTaotlus);
+  .get(protect, authorize('admin'), getAllTaotlus);
 
 router
   .route('/:id')
@@ -34,7 +34,7 @@ router
 router
   .route('/:taotluseId/company')
   .post(createUpdateCompany)
-  .get(getCompanyWithTaotlus);
+  .get(protect, authorize('admin'), getCompanyWithTaotlus);
 
 
 module.exports = router;
