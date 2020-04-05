@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
-const { check, validationResult } = require('express-validator');
 
-const User = require('../models/User');
+const {
+    getMe
+} = require('../controller/user.controller');
 
+const { protect, authorize } = require('../middleware/auth');
+
+
+router.get('/me', protect, getMe);
 
 module.exports = router;

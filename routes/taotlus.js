@@ -5,12 +5,14 @@ const { check } = require('express-validator');
 
 const {
     createUpdateTaotlus,
+    currentUserTaotlus,
     getAllTaotlus,
     getTaotlus,
     createUpdateCompany,
     getCompanyWithTaotlus
 } = require('../controller/taotlus.controller');
 
+router.get('/me', protect, currentUserTaotlus);
 
 router
   .route('/')

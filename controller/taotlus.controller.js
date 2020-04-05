@@ -60,6 +60,19 @@ exports.getAllTaotlus = async (req, res, next) => {
     }
 }
 
+exports.currentUserTaotlus = async (req, res, next) =>{
+    try {
+        const taotlus = await Taotlus.findOne({ user: req.user.id }).populate('user', ['name', 'group'])
+
+        if (!taotlus) return res.status(400).json({ msg: 'There is no taotlus for this user' });
+
+        res.status(201).json(taotlus);
+
+    } catch (err) {
+        next(err)
+    }
+}
+
 exports.getTaotlus = async (req, res, next) => {
     try {
        
