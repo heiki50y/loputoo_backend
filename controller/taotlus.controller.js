@@ -30,9 +30,10 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             periood,
             maht,
             ettevote_email,
-            ulesanded: Array.isArray(ulesanded)
-              ? ulesanded
-              : ulesanded.split(',').map(ulesanded => ' ' + ulesanded.trim()),
+            ulesanded
+            // ulesanded: Array.isArray(ulesanded)
+            //   ? ulesanded
+            //   : ulesanded.split(',').map(ulesanded => ' ' + ulesanded.trim()),
         };
       
         let taotlus = await Taotlus.findOneAndUpdate(
@@ -77,6 +78,20 @@ exports.getTaotlus = async (req, res, next) => {
     try {
        
         const taotlus = await Taotlus.findById(req.params.id).populate('user' ['name', 'group']);
+
+  
+        if (!taotlus) return res.status(400).json({ msg: 'Taotlus not found' });
+  
+        res.status(201).json(taotlus);
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.getUlesanded = async (req, res, next) => {
+    try {
+       
+        const taotlus = await Taotlus.findById(req.params.id).select('ulesanded opilase_nimi');
 
   
         if (!taotlus) return res.status(400).json({ msg: 'Taotlus not found' });

@@ -8,6 +8,7 @@ const {
     currentUserTaotlus,
     getAllTaotlus,
     getTaotlus,
+    getUlesanded,
     createUpdateCompany,
     getCompanyWithTaotlus
 } = require('../controller/taotlus.controller');
@@ -31,7 +32,9 @@ router
 
 router
   .route('/:id')
-  .get(getTaotlus);
+  .get(protect, authorize('admin'), getTaotlus)
+  
+router.route('/:id/ulesanded').get(getUlesanded);
 
 router
   .route('/:taotluseId/company')
