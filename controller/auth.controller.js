@@ -38,7 +38,6 @@ exports.login = asyncHandler (async (req, res, next) => {
     }
         
     sendTokenResponse(user, 200, res);
-    
 })
 
 const sendTokenResponse = (user, statusCode, res) => {

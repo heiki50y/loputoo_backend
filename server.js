@@ -1,6 +1,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const connectDB = require('./config/db');
+const xss = require('xss-clean');
+const helmet = require('helmet');
 
 const app = express();
 
@@ -10,6 +12,12 @@ connectDB();
 // Init Middleware
 app.use(express.json());
 app.use(cookieParser());
+
+// xss
+app.use(xss());
+
+// Set security headers
+app.use(helmet());
 
 // Define Routes
 app.use('/api/users', require('./routes/users'));
