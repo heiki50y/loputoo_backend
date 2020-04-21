@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const FormatDate = require('mongoose-schema-formatdate')
 
 const TaotlusSchema = new mongoose.Schema({
   user: {
@@ -32,8 +33,7 @@ const TaotlusSchema = new mongoose.Schema({
     type: String
   },
   date: {
-    type: Date,
-    default: Date.now
+    type: String
   }
 },
     {

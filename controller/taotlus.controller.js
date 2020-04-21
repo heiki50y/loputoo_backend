@@ -3,6 +3,8 @@ const { validationResult } = require('express-validator');
 const Taotlus = require('../models/Taotlus');
 const Company = require('../models/Company');
 const User = require('../models/User');
+const moment = require('moment');
+
 
 exports.createUpdateTaotlus = async (req, res, next) => {
     try {
@@ -12,6 +14,8 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
+        const date = moment().format("DD.MM.YYYY")
+        
         const {
             opilase_nimi,
             oppegrupp,
@@ -19,7 +23,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             periood,
             maht,
             ulesanded,
-            ettevote_email
+            ettevote_email,
         } = req.body;
       
         const taotluseFields = {
@@ -30,7 +34,9 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             periood,
             maht,
             ettevote_email,
-            ulesanded
+            ulesanded,
+            date
+            
             // ulesanded: Array.isArray(ulesanded)
             //   ? ulesanded
             //   : ulesanded.split(',').map(ulesanded => ' ' + ulesanded.trim()),
