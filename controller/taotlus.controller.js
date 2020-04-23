@@ -3,10 +3,12 @@ const { validationResult } = require('express-validator');
 const Taotlus = require('../models/Taotlus');
 const Company = require('../models/Company');
 const User = require('../models/User');
-const sendEmail = require('../utils/email')
+
 const moment = require('moment');
 const nodemailer = require('nodemailer');
 const config = require('config');
+const puppeteer = require('puppeteer')
+const fs = require('fs')
 
 
 exports.createUpdateTaotlus = async (req, res, next) => {
@@ -148,6 +150,20 @@ exports.createUpdateCompany = async (req, res, next) => {
             { $set: companyFileds },
             { new: true, upsert: true }
         );
+        
+        const todaysDate = moment().format('DD.MM.YYYY')
+
+        // Loob "Praktikataotlused" kausta uue kausta, mille nimeks pannakse "taotluseID"
+        if (!fs.existsSync(`praktikataotlused/${req.params.taotluseId}`)) {
+            fs.mkdirSync(`praktikataotlused/${req.params.taotluseId}`)
+        }
+
+        // Puppeteer
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto(`http://localhost:5000/api/pdf/5e8a60dcdba07aee528c45ba`, {waitUntil: 'networkidle0'});
+        await page.pdf({path: `praktikataotlused/${req.params.taotluseId}/heiki ${todaysDate}.pdf`, format: 'A4' });
+        await browser.close();
 
         res.status(201).json(company);
          
@@ -168,11 +184,37 @@ exports.getCompanyWithTaotlus = async (req, res, next) => {
     }
 }
 
+exports.getTaotlusWithPdf = async (req, res, next) => {
+    try {
+
+        // const data = await Company.find({ taotlus: req.params.taotluseId }).populate('taotlus');
+        // Kuupäev
+        const todaysDate = moment().format('DD.MM.YYYY')
+
+        // Loob "Praktikataotlused" kausta uue kausta, mille nimeks pannakse "taotluseID"
+        if (!fs.existsSync(`praktikataotlused/${req.params.taotluseId}`)) {
+            fs.mkdirSync(`praktikataotlused/${req.params.taotluseId}`)
+        }
+
+        // Puppeteer
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto(`http://localhost:5000/api/pdf/${req.parmas.taotluseId}`, {waitUntil: 'networkidle0'});
+        await page.pdf({path: `praktikataotlused/${req.params.taotluseId}.${todaysDate}.pdf`, format: 'A4' });
+        await browser.close();
+
+        res.status(201).json('done');
+         
+    } 
+    catch (err) {
+        next(err)
+    }
+}
+
+
 exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
     try {
         const data = await Taotlus.find({ _id: req.params.taotluseId })
-
-        // '5e9f5ac6cd54d89aa33242d2'
 
         const sendData = {
             nimi: data[0].opilase_nimi,
@@ -191,7 +233,6 @@ exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
             </ul>
         `;
 
-        
         let transporter = nodemailer.createTransport({
             host: config.get('MAIL_HOST'),
             port: 2525,
@@ -209,7 +250,6 @@ exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
             html: output // html body
         };
 
-        
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 return console.log(error);
@@ -225,6 +265,7 @@ exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
         next(err)
     }
 }
+
 
 
 
