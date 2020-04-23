@@ -22,6 +22,7 @@
     "mongoose": "^5.9.6",
     "mongoose-dateonly": "^1.0.6",
     "mongoose-schema-formatdate": "^1.0.0",
+    "nodemailer": "^6.4.6",
     "nodemon": "^2.0.2",
     "xss-clean": "^0.1.1"
   }

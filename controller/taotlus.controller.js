@@ -3,7 +3,10 @@ const { validationResult } = require('express-validator');
 const Taotlus = require('../models/Taotlus');
 const Company = require('../models/Company');
 const User = require('../models/User');
+const sendEmail = require('../utils/email')
 const moment = require('moment');
+const nodemailer = require('nodemailer');
+const config = require('config');
 
 
 exports.createUpdateTaotlus = async (req, res, next) => {
@@ -49,6 +52,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
         );
 
         res.status(201).json(taotlus);
+
         
     } catch (err) {
         next(err)
@@ -163,6 +167,65 @@ exports.getCompanyWithTaotlus = async (req, res, next) => {
         next(err)
     }
 }
+
+exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
+    try {
+        const data = await Taotlus.find({ _id: req.params.taotluseId })
+
+        // '5e9f5ac6cd54d89aa33242d2'
+
+        const sendData = {
+            nimi: data[0].opilase_nimi,
+            id: data[0].id,
+            eriala: data[0].eriala
+        }
+
+        toEmail = `${req.body.email}`
+
+        const output = `
+            <ul>  
+                <li>Õpilane ${sendData.nimi}</li>
+                <li>${sendData.eriala}</li>
+                <li>www.domain.ee/taotlus/${sendData.id}</li>
+                <li>Praktika taotluse <a href="www.domain.ee/taotlus/${sendData.id}">LINK</a></li>
+            </ul>
+        `;
+
+        
+        let transporter = nodemailer.createTransport({
+            host: config.get('MAIL_HOST'),
+            port: 2525,
+            auth: {
+                user: config.get('MAIL_USER'),
+                pass: config.get('MAIL_PASSWOD')
+            }
+        });
+       
+        let mailOptions = {
+            from: '<praktika@khk.ee>', 
+            to: toEmail, // list of receivers
+            subject: `${sendData.nimi} praktika dokumendi link`, // Subject line
+            text: 'Hello world?', // plain text body
+            html: output // html body
+        };
+
+        
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+           
+            res.status(201).json({
+                data: sendData,
+                info
+            });
+        });
+
+    } catch (err) {
+        next(err)
+    }
+}
+
 
 
 
