@@ -21,6 +21,8 @@ app.use(xss());
 // Set security headers
 app.use(helmet());
 
+
+
 function setHeaders (res, path) {
     res.setHeader('Content-Disposition', 'attachment')
 }
@@ -32,6 +34,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/taotlus', require('./routes/taotlus'));
 app.use('/api/company', require('./routes/company'));
+app.use('/api/documents', require('./routes/documents'));
 app.use('/api/pdf', require('./routes/pdf'))
 
 app.use(express.static(path.join(__dirname, 'public')))
