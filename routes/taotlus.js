@@ -11,8 +11,7 @@ const {
     getUlesanded,
     createUpdateCompany,
     getCompanyWithTaotlus,
-    sendTaotlusIdWithEmail,
-    getTaotlusWithPdf
+    sendTaotlusIdWithEmail
 } = require('../controller/taotlus.controller');
 
 router.get('/me', protect, currentUserTaotlus);
@@ -38,7 +37,6 @@ router
   
 router.route('/:id/ulesanded').get(getUlesanded);
 router.route('/send/:taotluseId').post(protect, sendTaotlusIdWithEmail);
-router.route('/pdf/:taotluseId').post(protect, getTaotlusWithPdf)
 
 router
   .route('/:taotluseId/company')

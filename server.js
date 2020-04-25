@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const xss = require('xss-clean');
 const path = require('path')
 const helmet = require('helmet');
+const { protect, authorize } = require('./middleware/auth');
 
 const app = express();
 
@@ -19,6 +20,12 @@ app.use(xss());
 
 // Set security headers
 app.use(helmet());
+
+function setHeaders (res, path) {
+    res.setHeader('Content-Disposition', 'attachment')
+}
+
+app.use('/taotlused', protect, authorize('admin'), express.static('praktikataotlused', setHeaders))
 
 // Define Routes
 app.use('/api/users', require('./routes/users'));

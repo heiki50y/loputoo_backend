@@ -55,7 +55,6 @@ exports.createUpdateTaotlus = async (req, res, next) => {
 
         res.status(201).json(taotlus);
 
-        
     } catch (err) {
         next(err)
     }
@@ -91,7 +90,6 @@ exports.getTaotlus = async (req, res, next) => {
        
         const taotlus = await Taotlus.findById(req.params.id).populate('user' ['name', 'group']);
 
-  
         if (!taotlus) return res.status(400).json({ msg: 'Taotlus not found' });
   
         res.status(201).json(taotlus);
@@ -105,7 +103,6 @@ exports.getUlesanded = async (req, res, next) => {
        
         const taotlus = await Taotlus.findById(req.params.id).select('ulesanded opilase_nimi');
 
-  
         if (!taotlus) return res.status(400).json({ msg: 'Taotlus not found' });
   
         res.status(201).json(taotlus);
@@ -151,21 +148,21 @@ exports.createUpdateCompany = async (req, res, next) => {
             { new: true, upsert: true }
         );
         
+        const data = await Company.find({ taotlus: req.params.taotluseId }).populate('taotlus');
+
         const todaysDate = moment().format('DD.MM.YYYY')
 
-        // Loob "Praktikataotlused" kausta uue kausta, mille nimeks pannakse "taotluseID"
         if (!fs.existsSync(`praktikataotlused/${req.params.taotluseId}`)) {
             fs.mkdirSync(`praktikataotlused/${req.params.taotluseId}`)
         }
 
-        // Puppeteer
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
-        await page.goto(`http://localhost:5000/api/pdf/5e8a60dcdba07aee528c45ba`, {waitUntil: 'networkidle0'});
-        await page.pdf({path: `praktikataotlused/${req.params.taotluseId}/heiki ${todaysDate}.pdf`, format: 'A4' });
+        await page.goto(`http://localhost:5000/api/pdf/${req.params.taotluseId}`, {waitUntil: 'networkidle0'});
+        await page.pdf({path: `praktikataotlused/${req.params.taotluseId}/${data[0].taotlus.opilase_nimi} ${todaysDate}.pdf`, format: 'A4' });
         await browser.close();
 
-        res.status(201).json(company);
+        res.status(201).json({"Company": company, "Taotlus": data});
          
     } catch (err) {
         next(err)
@@ -184,35 +181,7 @@ exports.getCompanyWithTaotlus = async (req, res, next) => {
     }
 }
 
-exports.getTaotlusWithPdf = async (req, res, next) => {
-    try {
-
-        // const data = await Company.find({ taotlus: req.params.taotluseId }).populate('taotlus');
-        // Kuupäev
-        const todaysDate = moment().format('DD.MM.YYYY')
-
-        // Loob "Praktikataotlused" kausta uue kausta, mille nimeks pannakse "taotluseID"
-        if (!fs.existsSync(`praktikataotlused/${req.params.taotluseId}`)) {
-            fs.mkdirSync(`praktikataotlused/${req.params.taotluseId}`)
-        }
-
-        // Puppeteer
-        const browser = await puppeteer.launch({ headless: true });
-        const page = await browser.newPage();
-        await page.goto(`http://localhost:5000/api/pdf/${req.parmas.taotluseId}`, {waitUntil: 'networkidle0'});
-        await page.pdf({path: `praktikataotlused/${req.params.taotluseId}.${todaysDate}.pdf`, format: 'A4' });
-        await browser.close();
-
-        res.status(201).json('done');
-         
-    } 
-    catch (err) {
-        next(err)
-    }
-}
-
-
-exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
+exports.sendTaotlusIdWithEmail = async (req, res, next) => {
     try {
         const data = await Taotlus.find({ _id: req.params.taotluseId })
 
@@ -234,6 +203,7 @@ exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
         `;
 
         let transporter = nodemailer.createTransport({
+            // service: 'gmail',
             host: config.get('MAIL_HOST'),
             port: 2525,
             auth: {
@@ -243,7 +213,7 @@ exports.sendTaotlusIdWithEmail = async (req, res, next) =>{
         });
        
         let mailOptions = {
-            from: '<praktika@khk.ee>', 
+            from: 'praktika@khk.ee', 
             to: toEmail, // list of receivers
             subject: `${sendData.nimi} praktika dokumendi link`, // Subject line
             text: 'Hello world?', // plain text body

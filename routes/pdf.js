@@ -3,10 +3,9 @@ const router = express.Router();
 const Company = require('../models/Company');
 const moment = require('moment');
 
-router.get('/5e8a60dcdba07aee528c45ba', async (req, res) => {
+router.get('/:id', async (req, res) => {
 
-    const data = await Company.find({ taotlus: '5e8a60dcdba07aee528c45ba'}).populate('taotlus');
-    // res.json(data)
+    const data = await Company.find({ taotlus: `${req.params.id}`}).populate('taotlus');
 
     const applicationData = {
         title: 'Praktikataotlus',
@@ -29,7 +28,7 @@ router.get('/5e8a60dcdba07aee528c45ba', async (req, res) => {
         tasks: data[0].ulesanded
     }   
 
-      res.render('index', applicationData);
+    res.render('index', applicationData);
 })
 
 module.exports = router;
