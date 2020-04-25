@@ -27,6 +27,9 @@ const CompanySchema = new mongoose.Schema({
         ref: 'taotlus',
         required: true
     },
+    ulesanded: {
+        type: Array
+    },
     date: {
         type: Date,
         default: Date.now

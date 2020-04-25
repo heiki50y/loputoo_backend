@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const FormatDate = require('mongoose-schema-formatdate')
 
 const TaotlusSchema = new mongoose.Schema({
   user: {
