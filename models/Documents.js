@@ -3,14 +3,19 @@ const mongoose = require('mongoose');
 const DocumentsSchema = new mongoose.Schema({
     doc: {
         type: String,
+        require: true
+    },
+    docName: {
+        type: String,
     },
     docType: {
         type: String,
-        enum: ['juhend', 'abimaterjal'],
+        enum: ['juhend', 'abimaterjal', 'dokumendid'],
         required: true
     },
     path: {
         type: String,
+        required: true
     },
     group: {
         type: String,

@@ -28,13 +28,15 @@ exports.uploadDoc = upload.single('doc');
 
 exports.createDocuments = async (req, res, next) => {
     try {
-        const { docType, group } = req.body
+        const { docName, docType, group } = req.body
 
         const doc = req.file.originalname
-        const path = req.file.destination + '/' + date + '-' + req.file.originalname
+        const docFix = doc.slice(0, doc.length-4);
+        const path = 'dokumendid/' + date + '-' + req.file.originalname
         
         const docs = await Documents.create({
-            doc,
+            doc: docFix,
+            docName,
             docType,
             path,
             group
