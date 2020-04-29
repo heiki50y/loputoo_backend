@@ -1,25 +1,31 @@
 const mongoose = require('mongoose');
 
 const CompanySchema = new mongoose.Schema({
-    ettevote_nimi: {
+    praktikakoha_nimi: {
         type: String
     },
-    telefon: {
+    praktikakoha_epost: {
         type: String
     },
-    aadress: {
+    praktikakoha_tel: {
+        type: String
+    },
+    praktikakoha_address: {
         type: String
     },
     lepingu_solmija: {
         type: String
     },
-    lepingu_alus: {
+    allkirjastamis_alus: {
         type: String
     },
-    juhendaja: {
+    praktikajuhedaja_nimi_amet: {
         type: String
     },
-    juhendaja_telefon: {
+    praktikajuhendaja_tel: {
+        type: String
+    },
+    praktikajuhendaja_epost: {
         type: String
     },
     taotlus: {

@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const xss = require('xss-clean');
 const path = require('path')
 const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
 const { protect, authorize } = require('./middleware/auth');
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(xss());
 // Set security headers
 app.use(helmet());
 
+app.use(mongoSanitize());
 
 
 function setHeaders (res, path) {

@@ -6,7 +6,8 @@ const TaotlusSchema = new mongoose.Schema({
     ref: 'User'
   },
   opilase_nimi: {
-    type: String
+    type: String,
+    required: true
   },
   oppegrupp: {
     type: String
@@ -18,7 +19,8 @@ const TaotlusSchema = new mongoose.Schema({
     type: String
   },
   maht: {
-    type: String
+    type: String,
+    required: true
   },
   ulesanded: {
     type: [String],
