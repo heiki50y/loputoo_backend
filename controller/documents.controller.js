@@ -79,7 +79,7 @@ exports.deleteDocument = async (req, res, next) => {
 
         if (!doc) return res.status(404).json({ msg: 'Taotlus not found' });
 
-        deleteFile(doc.path)
+        deleteFile('public/' + doc.path)
 
         await doc.remove();
 

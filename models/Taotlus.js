@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const TaotlusSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -35,6 +36,9 @@ const TaotlusSchema = new mongoose.Schema({
   },
   date: {
     type: String
+  },
+  created: {
+    type: Date,
   }
 },
     {
