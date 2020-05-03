@@ -25,7 +25,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             ulesanded,
             ettevote_email,
         } = req.body;
-      
+
         const taotluseFields = {
             user: req.user.id,
             opilase_nimi,
@@ -42,7 +42,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
         let taotlus = await Taotlus.findOneAndUpdate(
             { user: req.user.id },
             { $set: taotluseFields },
-            { new: true, upsert: true }
+            { new: true, upsert: true, runValidators: true }
         );
 
         await Taotlus.find({ _id: taotlus.id })
@@ -117,7 +117,7 @@ exports.currentUserTaotlus = async (req, res, next) =>{
     try {
         const taotlus = await Taotlus.findOne({ user: req.user.id }).populate('user', ['name', 'group'])
 
-        if (!taotlus) return res.status(400).json({ msg: 'There is no taotlus for this user' });
+        if (!taotlus) return res.status(400).json({ msg: 'Taotlust ei leitud' });
 
         res.status(201).json(taotlus);
 
@@ -131,7 +131,7 @@ exports.getTaotlus = async (req, res, next) => {
        
         const taotlus = await Taotlus.findById(req.params.id).populate('user' ['name', 'group']);
 
-        if (!taotlus) return res.status(400).json({ msg: 'Taotlus not found' });
+        if (!taotlus) return res.status(400).json({ msg: 'Taotlust ei leitud' });
   
         res.status(201).json(taotlus);
     } catch (err) {
@@ -144,7 +144,7 @@ exports.getUlesanded = async (req, res, next) => {
        
         const taotlus = await Taotlus.findById(req.params.id).select('ulesanded opilase_nimi');
 
-        if (!taotlus) return res.status(400).json({ msg: 'Taotlus not found' });
+        if (!taotlus) return res.status(400).json({ msg: 'Taotlust ei leitud' });
   
         res.status(201).json(taotlus);
     } catch (err) {
@@ -159,7 +159,7 @@ exports.createUpdateCompany = async (req, res, next) => {
 
         const taotlus = await Taotlus.findById(req.params.taotluseId);
 
-        if (!taotlus) return res.status(400).json({ msg: 'Taotlus not found' });
+        if (!taotlus) return res.status(400).json({ msg: 'Taotlust ei leitud' });
 
         const {
             praktikakoha_nimi,
@@ -187,7 +187,7 @@ exports.createUpdateCompany = async (req, res, next) => {
         let company = await Company.findOneAndUpdate(
             { taotlus: req.params.taotluseId },
             { $set: companyFileds },
-            { new: true, upsert: true }
+            { new: true, upsert: true, runValidators: true }
         );
         
         const data = await Company.find({ taotlus: req.params.taotluseId }).populate('taotlus');

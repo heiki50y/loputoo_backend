@@ -33,6 +33,7 @@ exports.createDocuments = async (req, res, next) => {
         const doc = req.file.originalname
         const docFix = doc.slice(0, doc.length-4);
         const path = 'dokumendid/' + date + '-' + req.file.originalname
+
         
         const docs = await Documents.create({
             doc: docFix,
@@ -64,7 +65,7 @@ exports.getDocument = async (req, res, next) => {
     try {
         const doc = await Documents.findById(req.params.id);
 
-        if (!doc) return res.status(404).json({ msg: 'Taotlus not found' });
+        if (!doc) return res.status(404).json({ msg: 'Dokumenti ei leitud' });
 
         res.status(201).json(doc);
 
@@ -77,7 +78,7 @@ exports.deleteDocument = async (req, res, next) => {
     try {
         const doc = await Documents.findById(req.params.id);
 
-        if (!doc) return res.status(404).json({ msg: 'Taotlus not found' });
+        if (!doc) return res.status(404).json({ msg: 'Dokumenti ei leitud' });
 
         deleteFile('public/' + doc.path)
 
