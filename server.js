@@ -6,6 +6,7 @@ const path = require('path')
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const { protect, authorize } = require('./middleware/auth');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -38,6 +39,8 @@ app.use('/api/taotlus', require('./routes/taotlus'));
 app.use('/api/company', require('./routes/company'));
 app.use('/api/documents', require('./routes/documents'));
 app.use('/api/pdf', require('./routes/pdf'))
+
+app.use(errorHandler);
 
 app.use(express.static(path.join(__dirname, 'public')))
 

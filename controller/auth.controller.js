@@ -22,19 +22,19 @@ exports.login = asyncHandler (async (req, res, next) => {
     const { email, password } = req.body
 
     if (!email || !password) {
-        return res.status(400).json({ msg: 'Please provide email and password' });
+        return res.status(400).json({ msg: 'Palun sisestage õige email ja parool' });
     }
 
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
-        return res.status(401).json({ msg: 'Invalid email or password' });
+        return res.status(401).json({ msg: 'Vale email või parool' });
     }
 
     const isMatch = await user.matchPassword(password)
 
     if (!isMatch) {
-        return res.status(401).json({ msg: 'Invalid email or password' });
+        return res.status(401).json({ msg: 'Vale email või parool' });
     }
         
     sendTokenResponse(user, 200, res);

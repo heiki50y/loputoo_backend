@@ -11,13 +11,16 @@ const TaotlusSchema = new mongoose.Schema({
     required: true
   },
   oppegrupp: {
-    type: String
+    type: String,
+    required: true
   },
   eriala: {
-    type: String
+    type: String,
+    required: true
   },
   periood: {
-    type: String
+    type: String,
+    required: true
   },
   maht: {
     type: String,
@@ -32,10 +35,11 @@ const TaotlusSchema = new mongoose.Schema({
     ref: 'company'
   },
   ettevote_email: {
-    type: String
+    type: String,
+    required: true
   },
   date: {
-    type: String
+    type: String,
   },
   created: {
     type: Date,
