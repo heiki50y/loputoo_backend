@@ -1,8 +1,6 @@
-const { validationResult } = require('express-validator');
-
 const Taotlus = require('../models/Taotlus');
 const Company = require('../models/Company');
-const User = require('../models/User');
+
 
 const moment = require('moment');
 const nodemailer = require('nodemailer');
@@ -14,12 +12,9 @@ const fs = require('fs')
 exports.createUpdateTaotlus = async (req, res, next) => {
     try {
 
-            // const errors = validationResult(req);
-            // if (!errors.isEmpty()) {
-            //     return res.status(400).json({ errors: errors.array(errors.msg) });
-            // }
+        const date = moment().format('DD.MM.YYYY')
 
-        const date = moment().format("DD.MM.YYYY")
+        const created = new Date(moment().format());
         
         const {
             opilase_nimi,
@@ -40,11 +35,8 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             maht,
             ettevote_email,
             ulesanded,
-            date
-            
-            // ulesanded: Array.isArray(ulesanded)
-            //   ? ulesanded
-            //   : ulesanded.split(',').map(ulesanded => ' ' + ulesanded.trim()),
+            date,
+            created
         };
       
         let taotlus = await Taotlus.findOneAndUpdate(
@@ -53,17 +45,29 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             { new: true, upsert: true }
         );
 
-       
         await Taotlus.find({ _id: taotlus.id })
 
         const output = `
-            <ul>  
-                <li>Õpilane ${taotlus.opilase_nimi}</li>
-                <li>${taotlus.eriala}</li>
-                <li>www.domain.ee/taotlus/${taotlus.id}</li>
-                <li>Praktika taotluse <a href="www.domain.ee/taotlus/${taotlus.id}">LINK</a></li>
-            </ul>
+            <p>Tere!</p>
+            <p>Aitäh, et olete nõus juhendama Tartu Kutsehariduskeskuse õpilase
+            (${taotlus.opilase_nimi}, ${taotlus.eriala}) ettevõtte praktikat.
+            Palun Teil ära täita järgnevad andmed praktikalepingu vormistamiseks.</p>
+            <a href="https://localhost:3000/taoltus/${taotlus.id}">Link</a>
+            <p>Meeldivat koostööd soovides</br>
+            praktikakoordinaator</p>
         `;
+
+        const text = `
+            Tere!
+
+            Aitäh, et olete nõus juhendama Tartu Kutsehariduskeskuse õpilase (${taotlus.opilase_nimi}, ${taotlus.eriala}) ettevõtte praktikat.
+            Palun teil ära täita järgnevad andmed praktikalepingu vormistamiseks.
+
+            https://localhost:3000/taoltus/${taotlus.id}
+
+            Meeldivat koostööd soovides
+            praktikakoordinaator
+        `
 
         let transporter = nodemailer.createTransport({
             // service: 'gmail',
@@ -77,10 +81,10 @@ exports.createUpdateTaotlus = async (req, res, next) => {
        
         let mailOptions = {
             from: 'praktika@khk.ee', 
-            to: taotlus.ettevote_email, // list of receivers
-            subject: `${taotlus.opilase_nimi} praktika dokumendi link`, // Subject line
-            text: 'Hello world?', // plain text body
-            html: output // html body
+            to: taotlus.ettevote_email, 
+            subject: `${taotlus.opilase_nimi} praktika dokumendi link`, 
+            text: text, 
+            html: output 
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -197,7 +201,9 @@ exports.createUpdateCompany = async (req, res, next) => {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         await page.goto(`http://localhost:5000/api/pdf/${req.params.taotluseId}`, {waitUntil: 'networkidle0'});
-        await page.pdf({path: `praktikataotlused/${req.params.taotluseId}/${data[0].taotlus.opilase_nimi} ${todaysDate}.pdf`, format: 'A4' });
+        await page.pdf({
+            path: `praktikataotlused/${req.params.taotluseId}/${data[0].taotlus.opilase_nimi} ${todaysDate}.pdf`, format: 'A4' 
+        });
         await browser.close();
 
         res.status(201).json({"Company": company, "Taotlus": data});
