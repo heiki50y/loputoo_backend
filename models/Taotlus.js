@@ -10,10 +10,6 @@ const TaotlusSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  oppegrupp: {
-    type: String,
-    required: true
-  },
   eriala: {
     type: String,
     required: true
