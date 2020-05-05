@@ -19,6 +19,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
         const {
             opilase_nimi,
             eriala,
+            oppegrupp,
             periood,
             maht,
             ulesanded,
@@ -29,6 +30,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             user: req.user.id,
             opilase_nimi,
             eriala,
+            oppegrupp,
             periood,
             maht,
             ettevote_email,
@@ -159,11 +161,15 @@ exports.createUpdateCompany = async (req, res, next) => {
 
         if (!taotlus) return res.status(400).json({ msg: 'Taotlust ei leitud' });
 
+        const date = new Date(moment().format());
+
         const {
             praktikakoha_nimi,
             praktikakoha_epost,
             praktikakoha_tel,
             praktikakoha_address,
+            juriidiline_address,
+            lepingu_solmija,
             allkirjastamis_alus,
             praktikajuhedaja_nimi_amet,
             praktikajuhendaja_tel,
@@ -177,11 +183,14 @@ exports.createUpdateCompany = async (req, res, next) => {
             praktikakoha_epost,
             praktikakoha_tel,
             praktikakoha_address,
+            juriidiline_address,
+            lepingu_solmija,
             allkirjastamis_alus,
             praktikajuhedaja_nimi_amet,
             praktikajuhendaja_tel,
             praktikajuhendaja_epost,
-            ulesanded
+            ulesanded,
+            date
         }
 
         let company = await Company.findOneAndUpdate(

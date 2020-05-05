@@ -17,6 +17,10 @@ const CompanySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    juriidiline_address: {
+        type: String,
+        required: true
+    },
     lepingu_solmija: {
         type: String,
         required: true
@@ -46,7 +50,6 @@ const CompanySchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
     }
 });
 
