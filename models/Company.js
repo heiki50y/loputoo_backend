@@ -40,7 +40,6 @@ const CompanySchema = new mongoose.Schema({
     taotlus: {
         type: mongoose.Schema.ObjectId,
         ref: 'taotlus',
-        required: true
     },
     ulesanded: {
         type: Array

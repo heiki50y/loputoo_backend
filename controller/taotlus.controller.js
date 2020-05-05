@@ -18,7 +18,6 @@ exports.createUpdateTaotlus = async (req, res, next) => {
         
         const {
             opilase_nimi,
-            oppegrupp,
             eriala,
             periood,
             maht,
@@ -29,7 +28,6 @@ exports.createUpdateTaotlus = async (req, res, next) => {
         const taotluseFields = {
             user: req.user.id,
             opilase_nimi,
-            oppegrupp,
             eriala,
             periood,
             maht,
@@ -169,7 +167,8 @@ exports.createUpdateCompany = async (req, res, next) => {
             allkirjastamis_alus,
             praktikajuhedaja_nimi_amet,
             praktikajuhendaja_tel,
-            praktikajuhendaja_epost
+            praktikajuhendaja_epost,
+            ulesanded
         } = req.body;
 
         const companyFileds = {
@@ -181,7 +180,8 @@ exports.createUpdateCompany = async (req, res, next) => {
             allkirjastamis_alus,
             praktikajuhedaja_nimi_amet,
             praktikajuhendaja_tel,
-            praktikajuhendaja_epost
+            praktikajuhendaja_epost,
+            ulesanded
         }
 
         let company = await Company.findOneAndUpdate(
