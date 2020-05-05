@@ -15,22 +15,23 @@ exports.createUpdateTaotlus = async (req, res, next) => {
         const date = moment().format('DD.MM.YYYY')
 
         const created = new Date(moment().format());
-        
+
         const {
             opilase_nimi,
             eriala,
-            oppegrupp,
             periood,
             maht,
             ulesanded,
             ettevote_email,
         } = req.body;
 
+        const student = await User.find({ _id: req.user.id}).select('group')
+
         const taotluseFields = {
             user: req.user.id,
             opilase_nimi,
             eriala,
-            oppegrupp,
+            oppegrupp: student[0].group,
             periood,
             maht,
             ettevote_email,
@@ -43,7 +44,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             { user: req.user.id },
             { $set: taotluseFields },
             { new: true, upsert: true, runValidators: true }
-        );
+        )
 
         await Taotlus.find({ _id: taotlus.id })
 
@@ -215,7 +216,7 @@ exports.createUpdateCompany = async (req, res, next) => {
         });
         await browser.close();
 
-        res.status(201).json({"Company": company, "Taotlus": data});
+        res.status(201).json({msg: 'Täname, taotlus on saadetud!'});
          
     } catch (err) {
         next(err)

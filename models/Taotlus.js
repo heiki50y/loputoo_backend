@@ -16,7 +16,6 @@ const TaotlusSchema = new mongoose.Schema({
   },
   oppegrupp: {
     type: String,
-    required: true
   },
   periood: {
     type: String,
