@@ -56,7 +56,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 
 exports.logout = asyncHandler(async (req, res, next) => {
     res.cookie('token', 'none', {
-      expires: new Date(Date.now() + 10 * 1000),
+      expires: new Date(0),
       httpOnly: true
     });
   

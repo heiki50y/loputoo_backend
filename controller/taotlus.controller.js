@@ -164,6 +164,8 @@ exports.createUpdateCompany = async (req, res, next) => {
 
         const date = new Date(moment().format());
 
+        console.log(taotlus);
+
         const {
             praktikakoha_nimi,
             praktikakoha_epost,
@@ -202,8 +204,6 @@ exports.createUpdateCompany = async (req, res, next) => {
         
         const data = await Company.find({ taotlus: req.params.taotluseId }).populate('taotlus');
 
-        const todaysDate = moment().format('DD.MM.YYYY')
-
         if (!fs.existsSync(`praktikataotlused/${req.params.taotluseId}`)) {
             fs.mkdirSync(`praktikataotlused/${req.params.taotluseId}`)
         }
@@ -212,11 +212,11 @@ exports.createUpdateCompany = async (req, res, next) => {
         const page = await browser.newPage();
         await page.goto(`http://localhost:5000/api/pdf/${req.params.taotluseId}`, {waitUntil: 'networkidle0'});
         await page.pdf({
-            path: `praktikataotlused/${req.params.taotluseId}/${data[0].taotlus.opilase_nimi} ${todaysDate}.pdf`, format: 'A4' 
+            path: `praktikataotlused/${req.params.taotluseId}/${data[0].taotlus.opilase_nimi} ${data[0].taotlus.date}.pdf`, format: 'A4' 
         });
         await browser.close();
 
-        res.status(201).json({msg: 'Täname, taotlus on saadetud!'});
+        res.status(201).json({msg: 'Täname, taotlus on saadetud!', company});
          
     } catch (err) {
         next(err)
