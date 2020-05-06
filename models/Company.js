@@ -49,8 +49,8 @@ const CompanySchema = new mongoose.Schema({
         type: Array
     },
     date: {
-        type: Date,
-    }
+        type: String,
+    },
 });
 
 module.exports = Company = mongoose.model('company', CompanySchema);

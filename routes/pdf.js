@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Company = require('../models/Company');
-const moment = require('moment');
 
 router.get('/:id', async (req, res) => {
 
@@ -9,7 +8,7 @@ router.get('/:id', async (req, res) => {
 
     const applicationData = {
         title: 'Praktikataotlus',
-        todayDate: moment().format("DD.MM.YYYY"),
+        todayDate: data[0].taotlus.date,
         eriala: data[0].taotlus.eriala,
         op_nimi: data[0].taotlus.opilase_nimi,
         praktika_periood: data[0].taotlus.periood,
