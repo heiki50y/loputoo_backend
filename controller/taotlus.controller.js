@@ -53,7 +53,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
             <p>Aitäh, et olete nõus juhendama Tartu Kutsehariduskeskuse õpilase
             (${taotlus.opilase_nimi}, ${taotlus.eriala}) ettevõtte praktikat.
             Palun Teil ära täita järgnevad andmed praktikalepingu vormistamiseks.</p>
-            <a href="https://localhost:3000/taoltus/${taotlus.id}">Link</a>
+            <a href="localhost:8080/taotlus/${taotlus.id}">Link</a>
             <p>Meeldivat koostööd soovides</br>
             praktikakoordinaator</p>
         `;
@@ -162,8 +162,7 @@ exports.createUpdateCompany = async (req, res, next) => {
 
         if (!taotlus) return res.status(400).json({ msg: 'Taotlust ei leitud' });
 
-        const date = new Date(moment().format());
-
+       
         console.log(taotlus);
 
         const {
@@ -193,7 +192,7 @@ exports.createUpdateCompany = async (req, res, next) => {
             praktikajuhendaja_tel,
             praktikajuhendaja_epost,
             ulesanded,
-            date
+           
         }
 
         let company = await Company.findOneAndUpdate(

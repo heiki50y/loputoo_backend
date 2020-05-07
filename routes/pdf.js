@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
         tasks: data[0].ulesanded
     }   
 
-    res.render('index', applicationData);
+    res.json(data)
 })
 
 module.exports = router;

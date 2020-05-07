@@ -47,10 +47,7 @@ const CompanySchema = new mongoose.Schema({
     },
     ulesanded: {
         type: Array
-    },
-    date: {
-        type: String,
-    },
+    }
 });
 
 module.exports = Company = mongoose.model('company', CompanySchema);

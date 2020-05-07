@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const xss = require('xss-clean');
 const path = require('path')
 const helmet = require('helmet');
+const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 const { protect, authorize } = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
@@ -14,6 +15,13 @@ connectDB();
 
 
 // Init Middleware
+app.use(cors(
+    {
+        origin: 'http://localhost:8080',
+        credentials: true
+    }
+))
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -46,6 +54,15 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.set('views', './views')
 app.set('view engine', 'pug')
+
+// Serve static assets in production
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static('dist'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'FE', 'dist', 'index.html'));
+    });
+}
 
 const PORT = process.env.PORT || 5000;
 
