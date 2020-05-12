@@ -1,35 +1,52 @@
 const mongoose = require('mongoose');
 
 const CompanySchema = new mongoose.Schema({
-    ettevote_nimi: {
-        type: String
+    praktikakoha_nimi: {
+        type: String,
+        required: true
     },
-    telefon: {
-        type: String
+    praktikakoha_epost: {
+        type: String,
+        required: true
     },
-    aadress: {
-        type: String
+    praktikakoha_tel: {
+        type: String,
+        required: true
+    },
+    praktikakoha_address: {
+        type: String,
+        required: true
+    },
+    juriidiline_address: {
+        type: String,
+        required: true
     },
     lepingu_solmija: {
-        type: String
+        type: String,
+        required: true
     },
-    lepingu_alus: {
-        type: String
+    allkirjastamis_alus: {
+        type: String,
+        required: true
     },
-    juhendaja: {
-        type: String
+    praktikajuhedaja_nimi_amet: {
+        type: String,
+        required: true
     },
-    juhendaja_telefon: {
-        type: String
+    praktikajuhendaja_tel: {
+        type: String,
+        required: true
+    },
+    praktikajuhendaja_epost: {
+        type: String,
+        required: true
     },
     taotlus: {
         type: mongoose.Schema.ObjectId,
         ref: 'taotlus',
-        required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
+    ulesanded: {
+        type: Array
     }
 });
 

@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
     },
     group: {
         type: String,
-        enum: ['vs', 'kd', 'is', 'isp', 'SYSt'],
+        enum: ['vs', 'kd', 'is', 'isp', 'kd', 'SYSt', 'ita'],
         required: true
     },
     taotlus: {

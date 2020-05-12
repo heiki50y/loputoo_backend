@@ -18,17 +18,7 @@ router.get('/me', protect, currentUserTaotlus);
 
 router
   .route('/')
-  .post([
-    protect,
-    [
-      check('eriala', 'Eriala is required')
-        .not()
-        .isEmpty(),
-      check('ulesanded', 'Ulesanded is required')
-        .not()
-        .isEmpty()
-    ]
-  ], createUpdateTaotlus)
+  .post(protect, createUpdateTaotlus)
   .get(protect, authorize('admin'), getAllTaotlus);
 
 router

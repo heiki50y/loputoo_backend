@@ -1,0 +1,67 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title=title
+    link(rel="stylesheet" type="text/css" href="../assets/styles/style.css")
+  body
+    .wrapper
+      img#logo(src="../assets/img/khk_logo.png")
+      .flex.space-between
+        h1#heading Taotlus
+        p#date=todayDate
+      .container
+        h3 Praktikandi andmed:
+        .flex
+          p Eriala/Valdkond:
+          p=eriala
+        .flex
+          p Õpilase nimi:
+          p=op_nimi
+        .flex
+          p Praktikaperiood:
+          p=praktika_periood
+        .flex
+          p Praktika maht astronoomilistes tundides EKAP-tes:
+          p=praktika_maht
+      .container
+        h3 Ülesanded:
+        each task in tasks
+          p= task
+      .container
+        h3 Praktikakoha andmed:
+        .flex
+          p Praktikakoha nimi:
+          p=praktikakoha_nimi
+        .flex
+          p Praktikakoha registrikood: 
+          p=praktikakoha_reg
+        .flex
+          p Praktikakoha telefon:
+          p=praktikakoha_telefon
+        .flex
+          p Praktikakoha e-posti aadress:
+          p=praktikakoha_epost
+        .flex
+          p Juriidiline aadress:
+          p=praktikakoha_aadress
+        .flex
+          p Lepingu sõlmija nimi ja aadress:
+          p=praktikakoha_lepingu_solmija
+        .flex
+          p Lepingu sõlmija aadress:
+          //- p=praktikakoha_lepingu_solmija_aadress
+          p puudu
+        .flex
+          p Lepingu allakirjastamise alus:
+          p=praktikakoha_allkirjastamis_alus
+        .flex
+          p Praktikajuhendaja nimi:
+          p=praktikajuh_nimi
+        .flex
+          p Praktikajuhendaja amet:
+          p=praktikajuh_amet
+        .flex
+          p Praktikajuhendaja kontakttelefon(id):
+          p=praktikajuh_tel

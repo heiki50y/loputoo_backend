@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const FormatDate = require('mongoose-schema-formatdate')
+
 
 const TaotlusSchema = new mongoose.Schema({
   user: {
@@ -7,19 +7,23 @@ const TaotlusSchema = new mongoose.Schema({
     ref: 'User'
   },
   opilase_nimi: {
-    type: String
-  },
-  oppegrupp: {
-    type: String
+    type: String,
+    required: true
   },
   eriala: {
-    type: String
+    type: String,
+    required: true
+  },
+  oppegrupp: {
+    type: String,
   },
   periood: {
-    type: String
+    type: String,
+    required: true
   },
   maht: {
-    type: String
+    type: String,
+    required: true
   },
   ulesanded: {
     type: [String],
@@ -30,10 +34,14 @@ const TaotlusSchema = new mongoose.Schema({
     ref: 'company'
   },
   ettevote_email: {
-    type: String
+    type: String,
+    required: true
   },
   date: {
-    type: String
+    type: String,
+  },
+  created: {
+    type: Date,
   }
 },
     {
