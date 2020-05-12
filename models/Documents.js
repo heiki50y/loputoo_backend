@@ -10,7 +10,7 @@ const DocumentsSchema = new mongoose.Schema({
     },
     docType: {
         type: String,
-        enum: ['juhend', 'abimaterjal', 'dokumendid'],
+        enum: ['juhend', 'abimaterjal', 'dokument'],
         required: true
     },
     path: {
@@ -19,7 +19,7 @@ const DocumentsSchema = new mongoose.Schema({
     },
     group: {
         type: String,
-        enum: ['vs', 'kd', 'is', 'isp', 'SYSt', 'all'],
+        enum: ['vs', 'kd', 'is', 'isp', 'SYSt', 'ita', 'all'],
         required: true
     },
     date: {

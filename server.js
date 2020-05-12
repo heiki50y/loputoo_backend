@@ -55,14 +55,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', './views')
 app.set('view engine', 'pug')
 
-// Serve static assets in production
-if(process.env.NODE_ENV === 'production') {
-    app.use(express.static('public'));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'public', 'dist', 'index.html'));
-    });
-}
 
 const PORT = process.env.PORT || 5000;
 
