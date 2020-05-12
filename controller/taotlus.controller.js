@@ -95,7 +95,7 @@ exports.createUpdateTaotlus = async (req, res, next) => {
         });
 
         res.status(201).json({
-            msg: 'Täname, taotlus on saadetud!'
+            message: 'Täname, taotlus on saadetud!'
         });
 
     } catch (err) {
