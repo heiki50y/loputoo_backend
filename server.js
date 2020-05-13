@@ -15,12 +15,13 @@ connectDB();
 
 
 // Init Middleware
-app.use(cors(
-    {
-        origin: 'http://localhost:8080',
-        credentials: true
-    }
-))
+app.use(cors());
+// app.use(cors(
+//     {
+//         origin: 'http://localhost:8080',
+//         credentials: true
+//     }
+// ))
 
 app.use(express.json());
 app.use(cookieParser());
@@ -55,6 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', './views')
 app.set('view engine', 'pug')
 
+app.get('/', (req, res) => res.send('Lopputoo backend'))
 
 const PORT = process.env.PORT || 5000;
 
