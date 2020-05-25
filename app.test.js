@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const config = require('config');
 const db = config.get('mongoURI');
 
-describe("Testing the movies API", () => {
+describe("Testing the loputoo API", () => {
     beforeAll(async () => {
         await mongoose.connect(db, { useNewUrlParser: true })
     })
