@@ -236,62 +236,6 @@ exports.getCompanyWithTaotlus = async (req, res, next) => {
 
 
 
-exports.sendTaotlusIdWithEmail = async (req, res, next) => {
-    try {
-        const data = await Taotlus.find({ _id: req.params.taotluseId })
-
-        const sendData = {
-            nimi: data[0].opilase_nimi,
-            id: data[0].id,
-            eriala: data[0].eriala
-        }
-
-        toEmail = `${req.body.email}`
-
-        const output = `
-            <ul>  
-                <li>Õpilane ${sendData.nimi}</li>
-                <li>${sendData.eriala}</li>
-                <li>www.domain.ee/taotlus/${sendData.id}</li>
-                <li>Praktika taotluse <a href="www.domain.ee/taotlus/${sendData.id}">LINK</a></li>
-            </ul>
-        `;
-
-        let transporter = nodemailer.createTransport({
-            // service: 'gmail',
-            host: config.get('MAIL_HOST'),
-            port: 2525,
-            auth: {
-                user: config.get('MAIL_USER'),
-                pass: config.get('MAIL_PASSWOD')
-            }
-        });
-       
-        let mailOptions = {
-            from: 'praktika@khk.ee', 
-            to: toEmail, // list of receivers
-            subject: `${sendData.nimi} praktika dokumendi link`, // Subject line
-            text: 'Hello world?', // plain text body
-            html: output // html body
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }
-           
-            res.status(201).json({
-                data: sendData,
-                info
-            });
-        });
-
-    } catch (err) {
-        next(err)
-    }
-}
-
-
 
 
 

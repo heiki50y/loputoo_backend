@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "loputoo mongodb-ga",
   "main": "server.js",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "scripts": {
     "start": "node server",
-    "server": "nodemon server"
+    "server": "nodemon server",
+    "test": "jest"
   },
   "author": "heiki",
   "license": "ISC",
@@ -32,7 +36,12 @@
     "nodemon": "^2.0.2",
     "pug": "^2.0.4",
     "puppeteer": "^3.0.1",
+    "serve-static": "^1.14.1",
+    "supertest": "^4.0.2",
     "uuid": "^7.0.3",
     "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1"
   }
 }
