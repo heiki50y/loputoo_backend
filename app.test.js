@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const config = require('config');
 const db = config.get('mongoURI');
 
-describe("Testing the movies API", () => {
+describe("IKT-osakonna praktika dokumentide haldussüsteemi testimine", () => {
     beforeAll(async () => {
         await mongoose.connect(db, { useNewUrlParser: true })
     })
